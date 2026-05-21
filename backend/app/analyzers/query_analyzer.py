@@ -80,10 +80,22 @@ class MongoDBQueryAnalyzer:
         "companyId",
     }
 
+    def _ambil_filter_efektif(self, bentuk_query: Dict[str, Any]) -> Dict[str, Any]:
+        """Gabungkan filter top-level atau $match pertama pada pipeline agregasi."""
+        penapis_atas = bentuk_query.get("filter") or {}
+        if penapis_atas:
+            return penapis_atas
+        for tahap in bentuk_query.get("pipeline", []):
+            if isinstance(tahap, dict) and "$match" in tahap:
+                potong = tahap["$match"]
+                if isinstance(potong, dict):
+                    return potong
+        return {}
+
     def analyze(self, query: Dict[str, Any]) -> QueryAnalysisResult:
         koleksi = query.get("collection", "unknown")
         operasi = query.get("command", "unknown")
-        objek_penapis = query.get("filter", {})
+        objek_penapis = self._ambil_filter_efektif(query)
         untaian_agg = query.get("pipeline", [])
 
         butuh_pemisahan_penghuni = koleksi in self.TENANT_SCOPED_COLLECTIONS

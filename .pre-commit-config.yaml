@@ -1,0 +1,13 @@
+# Opsional Day 1 — jalankan: pre-commit install (dari backend venv)
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+        files: ^(backend|demo-app|scripts)/.*\.py$
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+        files: ^backend/
+        args: [--max-line-length=100, --extend-ignore=E203,W503]

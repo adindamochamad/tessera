@@ -1,0 +1,22 @@
+{
+  "name": "violations_index",
+  "type": "vectorSearch",
+  "definition": {
+    "fields": [
+      {
+        "type": "vector",
+        "path": "embedding",
+        "numDimensions": 768,
+        "similarity": "cosine"
+      },
+      {
+        "type": "filter",
+        "path": "tipe_pelanggaran"
+      },
+      {
+        "type": "filter",
+        "path": "tingkat_keparahan"
+      }
+    ]
+  }
+}

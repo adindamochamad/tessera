@@ -94,7 +94,7 @@ graph TB
 
 ```bash
 # Clone repository
-git clone https://github.com/[your-username]/tessera.git
+git clone https://github.com/adindamochamad/tessera.git
 cd tessera
 
 # Backend setup

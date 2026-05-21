@@ -11,8 +11,8 @@
 
 | Hari | Fokus | Status |
 |------|--------|--------|
-| Day 1 | Foundation & Architecture | ✅ Selesai |
-| Day 2 | Core Agent + Gemini (+ ingest profiler + LC ringkas + cov analyzer) | ✅ Parsial — lihat section Day 2 |
+| Day 1 | Foundation & Architecture | ✅ Repo selesai — infra cloud/Atlas jalankan manual (`docs/INFRA_DAY1.md`) |
+| Day 2 | Core Agent + Gemini (+ ingest profiler + LC ringkas + cov analyzer) | ✅ Repo selesai — Gemini live & LC+Gemini LLM opsional/manual |
 | Day 3 | MCP + Vector Search | ⬜ Belum |
 | Day 4 | Frontend Dashboard | ⬜ Belum |
 | Day 5 | Demo Scenario + Remediation | ⬜ Belum |
@@ -87,15 +87,16 @@ Gunakan secara mandiri bersama rekaman cepat apa pun yang Anda hasilkan sore itu
 - [x] Setup Python venv + `requirements.txt`
 - [x] Setup Next.js 14 + TailwindCSS + TypeScript
 - [x] Create `.env.example`
-- [ ] Setup pre-commit hooks (black, flake8, mypy) — opsional
+- [x] Setup pre-commit hooks (black, flake8) — `.pre-commit-config.yaml` (mypy opsional belum)
 
 ### Malam (2–3 jam)
-- [ ] Build demo multi-tenant FastAPI app (subject untuk audit)
-- [ ] Endpoints dengan violations:
-  - [ ] `GET /orders` — missing tenant_id filter (CRITICAL)
-  - [ ] `GET /orders/{id}` — safe query
-  - [ ] `GET /analytics` — cross-tenant aggregation (HIGH)
-- [ ] Deploy demo app ke Cloud Run (opsional Day 1, bisa Day 5)
+- [x] Build demo multi-tenant FastAPI app (subject untuk audit) — `demo-app/`
+- [x] Endpoints dengan violations:
+  - [x] `GET /orders` — missing tenant_id filter (CRITICAL)
+  - [x] `GET /orders/{id}` — safe query
+  - [x] `GET /analytics` — cross-tenant aggregation (HIGH)
+  - [x] `GET /users` + `GET /reports/join` — pola tambahan MEDIUM/CRITICAL
+- [x] Deploy demo app ke Cloud Run (opsional) — `demo-app/Dockerfile` siap; deploy manual Day 5/6
 
 ### Deliverables Day 1
 - [x] Folder + struktur project lengkap
@@ -103,8 +104,8 @@ Gunakan secara mandiri bersama rekaman cepat apa pun yang Anda hasilkan sore itu
 - [x] Backend skeleton (agent, analyzers, mcp, api)
 - [x] Frontend skeleton (landing page)
 - [x] Git repo + 2 commits
-- [ ] GCP project configured
-- [ ] MongoDB Atlas + sample data
+- [ ] GCP project configured — skrip: `scripts/infra/setup-gcp.sh`, panduan: `docs/INFRA_DAY1.md`
+- [ ] MongoDB Atlas + sample data — seed: `scripts/seed_mongodb_demo.py`, index: `scripts/infra/atlas-vector-index.json`
 
 ---
 
@@ -138,7 +139,7 @@ Gunakan secara mandiri bersama rekaman cepat apa pun yang Anda hasilkan sore itu
 
 ### Malam (2–3 jam)
 - [x] Expand pytest: missing filter, safe query, cross-tenant aggregation, profiler ingest, API audit, agent
-- [ ] Manual test dengan sample queries dari demo app (demo app multi-tenant belum di gate Day 1 checklist)
+- [x] Manual test dengan sample queries dari demo app — `pola_query_audit.py`, `scripts/uji-audit-demo.sh`, `test_demo_app_pola_audit.py`
 - [x] Connect `TesseraAgent.analyze_query()` ke Gemini (opsional, bukan stub wajib)
 - [x] Connect `TesseraAgent.mulai_audit()` end-to-end minimal (API + contoh `queries`)
 
@@ -431,4 +432,4 @@ git push origin main
 
 ---
 
-*Last updated: 20 Mei 2026 — Day 2: templat Gemini + keluaran JSON (`analisis_terstruktur_gemini`), LC deterministik, cov analyzer*
+*Last updated: 21 Mei 2026 — Day 1 sisa repo: demo-app, seed Atlas, infra GCP/Atlas, pre-commit, uji pola demo*

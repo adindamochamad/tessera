@@ -42,6 +42,18 @@ pip install -r requirements.txt
 
 echo "✓ Backend setup complete"
 
+# Demo app setup
+echo ""
+echo "📦 Setting up demo-app..."
+cd ../demo-app
+if [ ! -d "venv" ]; then
+    python3 -m venv venv
+fi
+source venv/bin/activate
+pip install -q -r requirements.txt
+deactivate
+echo "✓ Demo app setup complete"
+
 # Frontend setup
 echo ""
 echo "📦 Setting up frontend..."
@@ -73,7 +85,10 @@ echo ""
 echo "Next steps:"
 echo "1. Edit .env file dengan your Google Cloud dan MongoDB credentials"
 echo "2. Start backend: cd backend && source venv/bin/activate && uvicorn app.api.main:app --reload"
-echo "3. Start frontend: cd frontend && npm run dev"
+echo "3. Start demo-app: cd demo-app && source venv/bin/activate && uvicorn app.main:aplikasi --reload --port 8081"
+echo "4. Seed Atlas (jika URI sudah di .env): python3 scripts/seed_mongodb_demo.py"
+echo "5. Start frontend: cd frontend && npm run dev"
+echo "6. Infra GCP/Atlas: lihat docs/INFRA_DAY1.md"
 echo ""
 echo "Visit http://localhost:3000 untuk see Tessera dashboard"
 echo ""

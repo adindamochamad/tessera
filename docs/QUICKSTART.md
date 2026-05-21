@@ -111,7 +111,30 @@ hasil = langkah_reka_lingkar_sederhana_tersebet(
 )
 ```
 
-### Terminal 2: Frontend
+### Terminal 2: Demo app (subjek audit, port 8081)
+
+```bash
+cd demo-app
+source venv/bin/activate
+uvicorn app.main:aplikasi --reload --port 8081
+```
+
+Tanpa Atlas, demo memakai mode memori. Set `MONGODB_URI` di `.env` root lalu seed:
+
+```bash
+python3 scripts/seed_mongodb_demo.py
+```
+
+Uji audit pola demo → API Tessera:
+
+```bash
+chmod +x scripts/uji-audit-demo.sh
+./scripts/uji-audit-demo.sh
+```
+
+Infrastruktur GCP/Atlas: **`docs/INFRA_DAY1.md`**.
+
+### Terminal 3: Frontend
 
 ```bash
 cd frontend
