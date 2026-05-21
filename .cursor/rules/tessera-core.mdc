@@ -1,0 +1,59 @@
+---
+description: Konteks Tessera + alur kerja agent (verifikasi setelah mengubah kode)
+alwaysApply: true
+---
+
+# Tessera — aturan umum proyek
+
+## Konteks ringkas
+
+- **Tujuannya**: Tessera adalah agen AI untuk mengaudit isolasi multi-tenant di MongoDB (query runtime, MCP, Gemini, Vector Search sesuai roadmap).
+- **Stack**: Backend FastAPI (Python), frontend Next.js 14 App Router.
+
+## Bahasa dalam kode (wajib dipatuhi bersama CONTRIBUTING.md)
+
+- **Variabel baru** di kode baru: **Bahasa Indonesia** (deskriptif).
+  - Python: `snake_case` — contoh: `jumlah_pelanggaran`, `hasil_analisis`
+  - TypeScript/React: **`camelCase`** — contoh: `jumlahPelanggaran`, `hasilAnalisis` (ikut CONTRIBUTING frontend)
+- **Komentar baru**: **Bahasa Indonesia**, jelaskan alasannya (bukan metafora sampah).
+- Jangan refactor massal hanya untuk mengubah bahasa variabel yang sudah ada kecuali diminta eksplisit.
+
+## Ukuran dan gaya PR
+
+- Minimalkan diff; ikuti konvensi file yang ada.
+- Jangan menambahkan dependensi baru tanpa alasan kuat dan tanpa dokumentasi ringkas di PR/commit message jika mempengaruhi setup.
+
+## Setelah menyentuh kode substantive (backend, frontend, skrip verifikasi, rules)
+
+**Wajib** jalankan pemeriksaan otomatis dan laporkan hasil singkat kepada user:
+
+1. Jalankan dari akar repo (setelah edit substantive):
+   ```bash
+   chmod +x scripts/verify.sh scripts/verify-full.sh   # pertama kali, jika perlu
+   ./scripts/verify.sh
+   ```
+   Jika perubahan menyentuh banyak frontend/backend berpotensi mempengaruhi **build Next produksi**, atau Anda menutup hari besar hackathon atau PR utama, jalankan `./scripts/verify-full.sh` (atau `npm run verify:full`) dan rangkum hasilnya sama seperti di bawah. CI GitHub (`.github/workflows/ci.yml`) meniru lapisan inti tersebut di mesin bersih.
+2. Rangkum dalam 2–6 kalimat yang memuat: **berapa langkah gagal**, file atau error utama, serta **sarana perbaikan** jika gagal.
+
+Jika perubahan tidak menyentuh kode yang diuji oleh skrip (misalnya hanya `.md` di luar dokumen mana pun yang menyentuh build), katakan secara eksplisit bahwa skrip bisa dilewati dan sebut alasannya.
+
+## Hackathon Tessera — kedisiplinan kematangan harian
+
+- **Tanpa pola «dibahas nanti / skip error dulu»** untuk apa pun yang Anda tandai sebagai deliverable utama hari itu: perbaiki, atau dokumentasikan **blokir luar** secara formal (**`docs/HACKATHON_BLOCKERS.md`**) bersama ETA, dampak bagi demo rubrik Stage 2, dan fallback bagi juri.
+- **Tiap sore** sebelum pindah tugas besar ke hari berikutnya ikuti **Gate keluar** di **`docs/TODOLIST-7-HARI.md`** serta definisi lebih rinci di **`docs/HACKATHON_QUALITY_BAR.md`**.
+- Anda **tidak boleh** meninggalkan: tes gagal, lint merah konsisten di jalur demo, MCP/Gemini «selesai» di dokumen tetapi masih kosong secara nyata tanpa blokir dokumentasi yang jujur dan transparan.
+- Jika memang tidak bisa selesai hari tersebut: dokumentasikan dulu blokir baru tutup tugas Anda—jangan menghilangkan jejak.
+
+## Pipeline agent (fitur / PR substantive)
+
+Untuk kode **teruji dan mendekati production-ready**, ikuti **Implementasi → Verifikasi → QA** di `AGENTS.md` (prompt: `.cursor/prompts/implementasi-matang.md`, skills `@tessera-implementasi`, `@tessera-verifikasi`, `@tessera-qa`).
+
+## Referensi dokumentasi internal
+
+- `AGENTS.md` / `docs/AGENT_PIPELINE.md` — pipeline 3 agent
+- `docs/VERIFY.md` — otomatis + manual verification
+- `docs/HACKATHON_QUALITY_BAR.md` — standar kematangan & rubrik Stage 2
+- `docs/HACKATHON_BLOCKERS.md` — catatan blokir resmi sah
+- `docs/TODOLIST-7-HARI.md` — roadmap + Gate keluar harian
+- `docs/ARCHITECTURE.md`
+- `docs/QUICKSTART.md`

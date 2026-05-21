@@ -1,0 +1,26 @@
+---
+description: Konvensi backend Python Tessera (FastAPI, tes, struktur modul)
+globs: backend/**/*.py
+alwaysApply: false
+---
+
+# Backend Python
+
+## Struktur
+
+- Titik masuk API: `backend/app/api/`
+- Agent: `backend/app/agent/`
+- Analyzer: `backend/app/analyzers/`
+- MCP client: `backend/app/mcp/`
+- Konfigurasi: `backend/app/config.py`
+
+## Konvensi
+
+- Gunakan **type hints** untuk fungsi publik.
+- Prefer `structlog` untuk log (sudah dipakai di modul utama).
+- Tes baru: letakkan di `backend/tests/` dengan nama jelas dalam Bahasa Indonesia di docstring tes jika membantu pembaca Indonesia.
+
+## Selesai mengubah `.py`
+
+- Jalankan `./scripts/verify.sh` atau minimal `cd backend && python3 -m pytest`.
+- Pertahankan pep8; jika ada `black`/`flake8` aktif secara lokal, ikuti hasil formatter project.

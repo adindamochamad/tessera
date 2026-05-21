@@ -62,6 +62,13 @@ VERTEX_AI_LOCATION=us-central1
 # MongoDB
 MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net/
 MONGODB_DATABASE=tessera_demo
+
+# Gemini Vertex (opsional; pasang dependensi GCP penuh: pip install -r requirements.txt).
+# Aktifkan ENABLE_GEMINI_ANALYSIS untuk menambahkan `analisis_terstruktur_gemini` di REST bila quota Vertex memungkinkan.
+ENABLE_GEMINI_ANALYSIS=false
+ENABLE_GEMINI_JSON_TERSTRUKTUR=true
+GEMINI_SAMPLING_SUHU=0.18
+GEMINI_TOKEN_MAKS_KELUARAN_TERSTRUKTUR=2048
 ```
 
 ## Running Locally
@@ -76,6 +83,34 @@ uvicorn app.api.main:app --reload
 
 Backend akan running di `http://localhost:8000`
 
+Contoh cepat jalur audit aturan (**Day 2**, tanpa Mongo sungguhan di respons):
+
+```bash
+curl -s -X POST http://localhost:8000/api/v1/audit/start \
+  -H "Content-Type: application/json" \
+  -d '{"nama_database":"contoh_mini","queries":[{"collection":"orders","command":"find","filter":{"status":"pending"}}]}'
+```
+
+Jika Anda mengumpulkan sampel dari `system.profile` MongoDB Atlas / on-prem, konversikan ke struktur Tessera dengan modul ingest (alur Day 2), lalu kirim `queries` seperti di atas atau panggil `query_analyzer` langsung dari skrip Anda. Contoh di bawah dijalankan **dari folder `backend`** dengan venv sama seperti `./scripts/verify.sh` (`PYTHONPATH` mengarah ke `backend`):
+
+```python
+from app.analyzers.profiler_ingest import daftar_entri_audit_dari_batch_profiler
+
+# dok_list = hasil koleksi Anda dari profiler (mis. list dokument JSON)
+queries = daftar_entri_audit_dari_batch_profiler(dok_list)
+# queries siap dikirim ke POST /api/v1/audit/start atau dianalisis lokal.
+```
+
+Jalur bergaya-agent **deterministik** dengan `langchain-core` (Thought → Action → Observation tanpa Gemini di `./scripts/verify.sh`):
+
+```python
+from app.agent.langchain_lingkar_audit import langkah_reka_lingkar_sederhana_tersebet
+
+hasil = langkah_reka_lingkar_sederhana_tersebet(
+    [{"collection": "orders", "command": "find", "filter": {"status": "pending"}}],
+)
+```
+
 ### Terminal 2: Frontend
 
 ```bash
@@ -87,19 +122,31 @@ Frontend akan running di `http://localhost:3000`
 
 ## Testing
 
-### Backend Tests
+### Verifikasi otomatis (disarankan)
+
+Dari root project setelah instalasi deps (`setup-dev.sh` atau manual):
+
+```bash
+chmod +x scripts/verify.sh scripts/verify-full.sh   # pertama kali, jika perlu
+./scripts/verify.sh
+```
+
+Versi lebih berlapis (termasuk cek sintaks modul backend dan **`npm run build`** produksi) — **disarankan sebelum merge PR utama atau rekaman demo**:
+
+```bash
+./scripts/verify-full.sh
+# atau dari akar workspace:
+npm run verify:full
+```
+
+Detail piramida verifikasi serta CI ada di **`docs/VERIFY.md`**. Push/PR ke GitHub menjalankan **`.github/workflows/ci.yml`** (Python 3.11 + lint/tipe/build frontend).
+
+### Backend (pytest saja)
 
 ```bash
 cd backend
 source venv/bin/activate
 pytest
-```
-
-### Frontend Tests
-
-```bash
-cd frontend
-npm test
 ```
 
 ## Common Issues

@@ -76,3 +76,6 @@ echo "2. Start backend: cd backend && source venv/bin/activate && uvicorn app.ap
 echo "3. Start frontend: cd frontend && npm run dev"
 echo ""
 echo "Visit http://localhost:3000 untuk see Tessera dashboard"
+echo ""
+echo "Verifikasi cepat (lint, tipe, pytest): dari root repo jalankan ./scripts/verify.sh"
+echo "Verifikasi lebih berlapis (build Next produksi + compileall backend): ./scripts/verify-full.sh atau npm run verify:full"

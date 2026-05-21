@@ -1,0 +1,14 @@
+---
+description: Pipeline 3 agent Tessera (Implementasi → Verifikasi → QA) untuk kode teruji dan production-ready
+alwaysApply: false
+---
+
+# Pipeline agent Tessera
+
+Untuk **fitur baru**, **deliverable hackathon**, atau **PR substantive**, ikuti urutan di **`AGENTS.md`**:
+
+1. **Implementasi** — prompt `.cursor/prompts/implementasi-matang.md` atau skill `@tessera-implementasi`
+2. **Verifikasi** — `@tessera-verifikasi` + handoff; wajib jalankan `./scripts/verify.sh`
+3. **QA** — `@tessera-qa` hanya setelah verifikasi PASS
+
+Jangan mengklaim selesai di tahap 1. Detail: `docs/AGENT_PIPELINE.md`.

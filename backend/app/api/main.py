@@ -67,9 +67,13 @@ async def health_check():
         "status": "healthy",
         "checks": {
             "api": "up",
-            "mongodb": "pending",  # Akan diimplementasi nanti
-            "gemini": "pending",   # Akan diimplementasi nanti
-            "mcp_server": "pending"  # Akan diimplementasi nanti
+            "mongodb": "pending",
+            "gemini": (
+                "flag_on_pending_runtime_proof"
+                if settings.enable_gemini_analysis
+                else "offline_disabled"
+            ),
+            "mcp_server": "pending",
         }
     }
 
@@ -82,17 +86,21 @@ async def get_info():
         "database": settings.mongodb_database,
         "features": {
             "vector_search": settings.enable_vector_search,
-            "auto_remediation": settings.enable_auto_remediation
+            "auto_remediation": settings.enable_auto_remediation,
+            "gemini_analysis": settings.enable_gemini_analysis,
+            "gemini_json_terstruktur": settings.enable_gemini_json_terstruktur,
         },
         "version": "0.1.0"
     }
 
 
-# Import routers (akan ditambahkan nanti)
-# from app.api.routes import audit, violations, reports
-# app.include_router(audit.router, prefix="/api/v1/audit", tags=["audit"])
-# app.include_router(violations.router, prefix="/api/v1/violations", tags=["violations"])
-# app.include_router(reports.router, prefix="/api/v1/reports", tags=["reports"])
+from app.api import routes_audit
+
+app.include_router(
+    routes_audit.router,
+    prefix="/api/v1/audit",
+    tags=["audit"],
+)
 
 
 if __name__ == "__main__":

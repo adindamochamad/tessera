@@ -28,6 +28,10 @@ Untuk feature requests, buat GitHub Issue dengan:
 4. Push ke branch: `git push origin feature/nama-feature`
 5. Buat Pull Request ke `main` branch
 
+### Keseriusan kematangan (tim hackathon)
+
+Kami menghindari pola «skip error untuk dibahas lain waktu»: setiap Deliverable utama harian **dibenangkan**, **dibuktikan dengan tes/smoke**, atau **diklaim sebagai blokir luar** secara terbuka di **`docs/HACKATHON_BLOCKERS.md`**. Ikuti **`docs/HACKATHON_QUALITY_BAR.md`** dan **Gate keluar** di **`docs/TODOLIST-7-HARI.md`**.
+
 ### Coding Standards
 
 **Python (Backend)**:
@@ -45,11 +49,24 @@ Untuk feature requests, buat GitHub Issue dengan:
 
 ### Testing
 
-- Semua features baru harus ada unit tests
-- Maintain test coverage >80%
-- Run tests sebelum submit PR:
-  - Backend: `pytest`
-  - Frontend: `npm test`
+- Semua fitur baru sebaiknya punya tes yang relevan (lihat konsensus tim untuk batas minimal).
+- Sebelum membuka atau memperbarui PR, jalankan dari **akar repo**:
+
+  ```bash
+  ./scripts/verify.sh
+  ```
+
+  Sebelum merge PR besar atau rekaman hackathon utama, jalankan jalur lebih berlapis (**`compileall`** backend dan **Next production build**):
+
+  ```bash
+  ./scripts/verify-full.sh
+  ```
+
+  Setara pemanggilan: `npm run verify:full` lewat **`package.json` tipis di akar** repository.
+
+- Cabang Anda pada push/PR diperiksa ulang secara otomatis oleh **`.github/workflows/ci.yml`**; sebaiknya lulus secara lokal dulu agar hemat waktu reviewer.
+- Butuh panduan lebih lengkap atau langkah manual? Lihat **`docs/VERIFY.md`**.
+- Untuk alur **Implementasi → Verifikasi → QA** di Cursor (kode teruji sebelum merge): **`AGENTS.md`** dan **`docs/AGENT_PIPELINE.md`**.
 
 ### Commit Messages
 

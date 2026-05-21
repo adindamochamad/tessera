@@ -1,0 +1,10 @@
+{
+  "name": "tessera-monorepo",
+  "private": true,
+  "description": "Skrip NPM tipis untuk memanggil pemeriksaan bash dari akar workspace",
+  "scripts": {
+    "verify": "bash scripts/verify.sh",
+    "verify:full": "bash scripts/verify-full.sh",
+    "ci": "npm run verify:full"
+  }
+}

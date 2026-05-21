@@ -1,0 +1,17 @@
+---
+description: Konvensi frontend Next.js / TypeScript Tessera
+globs: frontend/**/*
+alwaysApply: false
+---
+
+# Frontend Next.js
+
+## Konvensi
+
+- App Router: `frontend/app/`
+- **Variabel baru** dan nama state/handlers: **`camelCase` Bahasa Indonesia** (mis. `jumlahPelanggaran`).
+- Prefer komponen kecil dan server/client boundary yang jelas; hindari refactor besar tak diminta.
+
+## Selesai mengubah frontend
+
+- Jalankan `./scripts/verify.sh` atau minimal di `frontend/`: `npm run lint && npm run type-check`.

@@ -202,6 +202,10 @@ Unlike existing tools, Tessera is:
 - [Architecture Deep Dive](docs/ARCHITECTURE.md)
 - [API Reference](docs/API.md)
 - [Deployment Guide](docs/DEPLOYMENT.md)
+- [Verification (automated + manual)](docs/VERIFY.md)
+- [Hackathon—standar kematangan harian + rubrik Stage 2](docs/HACKATHON_QUALITY_BAR.md)
+- [Hackathon—catatan blokir resmi sah (jika GCP/Atlas dsb.)](docs/HACKATHON_BLOCKERS.md)
+- **CI GitHub Actions**: workflow di `.github/workflows/ci.yml` (`pytest`, `compileall`, lint, TypeScript check, **`next build`**)
 - [Contributing Guidelines](CONTRIBUTING.md)
 
 ## 🏆 Hackathon Journey
